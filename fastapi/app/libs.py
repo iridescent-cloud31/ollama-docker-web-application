@@ -1,15 +1,15 @@
 import requests
 from fastapi import FastAPI, Response
 
-# Database
-from db import (
-    create_chat,
-    get_all_chats,
-    get_chat_by_id,
-    delete_chat,
-    DataChat,
-    path_db
-)
+# # Database
+# from db import (
+#     create_chat,
+#     get_all_chats,
+#     get_chat_by_id,
+#     delete_chat,
+#     DataChat,
+#     path_db
+# )
 
 # Langchain
 from langchain_ollama import OllamaLLM # Ollama model
@@ -27,6 +27,6 @@ from langchain.cache import InMemoryCache
 from langchain.globals import set_llm_cache
 #--------------------------------------------------
 
-# Utility
-from utils import get_sql_from_answer_llm
+# # Utility
+# from utils import get_sql_from_answer_llm
 
