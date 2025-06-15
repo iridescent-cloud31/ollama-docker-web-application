@@ -3,6 +3,7 @@ from app.schema import (
     ChatRequest
 )
 from app.libs import *
+from app.db import *
 
 app = FastAPI()
 
@@ -14,8 +15,11 @@ template = PromptTemplate.from_template(
 """
 {context}
 
+{context_db}
+
 Trả lời câu hỏi sau:
 {question}
+
 
 Trả lời ở đây
 """
@@ -32,7 +36,8 @@ llm_chain = (
     | StrOutputParser()
 )
 
-from app.db import *
+db = SQLDatabase(engine=engine)
+
 
 @app.on_event("startup")
 def connect_db():
@@ -43,6 +48,7 @@ def connect_db():
 def prompt(chat_request: ChatRequest, session_db: SessionDeps):
     result = llm_chain.invoke({
         "context": chat_request.context,
+        "context_db": f"Câu trả lời có thể được tham khảo từ dữ liệu đã có: \n{db.get_table_info(db.get_usable_table_names())}",
         "question": chat_request.prompt
     })
 
